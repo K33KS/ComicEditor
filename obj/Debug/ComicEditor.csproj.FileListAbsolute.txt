@@ -1,0 +1,12 @@
+c:\users\kdeangelis\documents\visual studio 2015\Projects\ComicEditor\ComicEditor\bin\Debug\ComicEditor.exe.config
+c:\users\kdeangelis\documents\visual studio 2015\Projects\ComicEditor\ComicEditor\bin\Debug\ComicEditor.exe
+c:\users\kdeangelis\documents\visual studio 2015\Projects\ComicEditor\ComicEditor\bin\Debug\ComicEditor.pdb
+c:\users\kdeangelis\documents\visual studio 2015\Projects\ComicEditor\ComicEditor\obj\Debug\ComicEditor.Properties.Resources.resources
+c:\users\kdeangelis\documents\visual studio 2015\Projects\ComicEditor\ComicEditor\obj\Debug\ComicEditor.csproj.GenerateResource.Cache
+c:\users\kdeangelis\documents\visual studio 2015\Projects\ComicEditor\ComicEditor\obj\Debug\ComicEditor.exe
+c:\users\kdeangelis\documents\visual studio 2015\Projects\ComicEditor\ComicEditor\obj\Debug\ComicEditor.pdb
+c:\users\kdeangelis\documents\visual studio 2015\Projects\ComicEditor\ComicEditor\obj\Debug\ComicEditor.Form1.resources
+c:\users\kdeangelis\documents\visual studio 2015\Projects\ComicEditor\ComicEditor\bin\Debug\Newtonsoft.Json.dll
+c:\users\kdeangelis\documents\visual studio 2015\Projects\ComicEditor\ComicEditor\bin\Debug\Newtonsoft.Json.xml
+C:\Users\kdeangelis\Documents\Visual Studio 2015\Projects\ComicEditor\ComicEditor\obj\Debug\ComicEditor.JsonEditorForm.resources
+C:\Users\kdeangelis\Documents\Visual Studio 2015\Projects\ComicEditor\ComicEditor\obj\Debug\ComicEditor.csprojResolveAssemblyReference.cache

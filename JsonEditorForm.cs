@@ -14,8 +14,8 @@ namespace ComicEditor
     {
         public JsonEditorForm()
         {
-            
             InitializeComponent();
+
         }
 
     }

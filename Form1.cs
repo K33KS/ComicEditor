@@ -33,12 +33,14 @@ namespace ComicEditor
         public DashStyle cropDashStyle = DashStyle.DashDot;
         public Color lineColor = Color.Red;
         public Brush TextColor = Brushes.LawnGreen;
-        jsondata json = new jsondata();
-        page_info pageInfo = new page_info();
+        jsondata json;
+        page_info pageInfo;
         public Form1()
         {
             InitializeComponent();
             TopMost=true;
+            pageInfo = new page_info();
+            json = new jsondata();
             //FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Normal;
             folderBrowserDialog1.ShowDialog();
@@ -66,12 +68,15 @@ namespace ComicEditor
                 index++;
             }
             Image image = Image.FromFile(pages[index]);
+            panel5.Width = image.Width / 3;
+            panel5.Height = image.Height / 3;
             pictureBox1.Image = image;
             pictureBox1.Height = image.Height / 3;
             pictureBox1.Width = image.Width / 3;
             pictureBoxTextColor.BackColor = Color.LawnGreen;
             pictureBoxLineColor.BackColor = lineColor;
             pictureBoxToolColor.BackColor = Color.Yellow;
+            
             currentPage = 0;
             int pageCounter = 1;
             List<page_info> liPageInfo = new List<page_info>();
@@ -80,7 +85,6 @@ namespace ComicEditor
                 if (!page.EndsWith(".json") || !page.EndsWith(".db"))
                 {
                     panel_info panInfo = new panel_info();
-                    page_info pageInfo = new page_info();
                     FileInfo fi = new FileInfo(pages[pageCounter - 1]);
                     panInfo.page_number = pageCounter;
                     panInfo.panel_number = 1;
@@ -88,7 +92,9 @@ namespace ComicEditor
                     panInfo.y1 = 0;
                     panInfo.x2 = image.Width;
                     panInfo.y2 = image.Height;
-                    pageInfo.file_name = fi.Name;
+                    string fileName = fi.Name.Substring(fi.Name.IndexOf("_" + 1));
+                    pageInfo.file_name = fileName.Remove(fileName.IndexOf(".") - 1);
+                    pageInfo.file_name = pageInfo.file_name.Replace(".*_", "comic");
                     pageInfo.page_number = pageCounter;
                     List<panel_info> liPanInfo = new List<panel_info>();
                     liPanInfo.Add(panInfo);
@@ -379,6 +385,20 @@ namespace ComicEditor
             JasonForm jform = new JasonForm();
             jform.Show();
         }
+
+        private void showMenuToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (panel4.Visible == true)
+            {
+                panel4.Visible = false;
+                panel4.Refresh();
+            }
+            else if (panel4.Visible == false)
+            {
+                panel4.Visible = true;
+                panel4.Refresh();
+            }
+        }
     }
     public class JasonForm : JsonEditorForm
     {
@@ -396,6 +416,7 @@ namespace ComicEditor
         public string artist { get; set; }
         public string publisher { get; set; }
         public string genre { get; set; }
+        public string cover = "comic000";
         public List<page_info> pages { get; set; }
     }
     public class page_info

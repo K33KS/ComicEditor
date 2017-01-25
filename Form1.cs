@@ -39,8 +39,8 @@ namespace ComicEditor
         {
             InitializeComponent();
             TopMost=true;
-            FormBorderStyle = FormBorderStyle.None;
-            WindowState = FormWindowState.Maximized;
+            //FormBorderStyle = FormBorderStyle.None;
+            WindowState = FormWindowState.Normal;
             folderBrowserDialog1.ShowDialog();
             comicPath = folderBrowserDialog1.SelectedPath;
             LoadComic(folderBrowserDialog1.SelectedPath);
@@ -197,6 +197,7 @@ namespace ComicEditor
         {
             if ((currentPage +1) != 1)
             {
+                //commits the changes to the json object before changing pages and reloading the pageinfo
                 json.pages[currentPage] = pageInfo;
                 currentPage--;
                 Image image = Image.FromFile(pages[currentPage]);
@@ -214,7 +215,7 @@ namespace ComicEditor
                 }
             }
             pictureBox1.Refresh();
-            DrawRectangles(currentPage);
+            DrawRectangles(currentPage + 1);
         }
         public void DrawRectangles(int pageIndex)
         {
@@ -329,6 +330,19 @@ namespace ComicEditor
 
         private void finalizeComicToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            foreach (page_info page in json.pages)
+            {
+                foreach(panel_info panel in page.panels)
+                {
+                    if (panel.panel_number != 1)
+                    {
+                        panel.x1 = panel.x1 * 3;
+                        panel.y1 = panel.y1 * 3;
+                        panel.x2 = panel.x2 * 3;
+                        panel.y2 = panel.y2 * 3;
+                    }
+                }
+            }
             string jsonPath = Path.Combine(comicPath, "comic.json");
             FileInfo fi = new FileInfo(jsonPath);
             if (fi.Exists)
@@ -362,7 +376,15 @@ namespace ComicEditor
 
         private void editComicMetadataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            JasonForm jform = new JasonForm();
+            jform.Show();
+        }
+    }
+    public class JasonForm : JsonEditorForm
+    {
+        public void JsonEditorForm()
+        {
+            
         }
     }
     public class jsondata

@@ -35,6 +35,7 @@
             this.convertPDFToJPGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editComicMetadataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.finalizeComicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadJSONToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.btnTextColor = new System.Windows.Forms.Button();
@@ -55,22 +56,21 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panelMetadata = new System.Windows.Forms.Panel();
-            this.textBoxTitle = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBoxDate = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBoxAuthor = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.textBoxSummary = new System.Windows.Forms.TextBox();
+            this.buttonHideMetadata = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.textBoxGenre = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.textBoxPublisher = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.textBoxArtist = new System.Windows.Forms.TextBox();
-            this.buttonHideMetadata = new System.Windows.Forms.Button();
-            this.textBoxSummary = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.loadJSONToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textBoxAuthor = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBoxDate = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBoxTitle = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTextColor)).BeginInit();
@@ -120,6 +120,7 @@
             this.convertPDFToJPGToolStripMenuItem.Name = "convertPDFToJPGToolStripMenuItem";
             this.convertPDFToJPGToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.convertPDFToJPGToolStripMenuItem.Text = "Convert PDF to JPG";
+            this.convertPDFToJPGToolStripMenuItem.Click += new System.EventHandler(this.convertPDFToJPGToolStripMenuItem_Click);
             // 
             // editComicMetadataToolStripMenuItem
             // 
@@ -134,6 +135,13 @@
             this.finalizeComicToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.finalizeComicToolStripMenuItem.Text = "Finalize Comic";
             this.finalizeComicToolStripMenuItem.Click += new System.EventHandler(this.finalizeComicToolStripMenuItem_Click);
+            // 
+            // loadJSONToolStripMenuItem
+            // 
+            this.loadJSONToolStripMenuItem.Name = "loadJSONToolStripMenuItem";
+            this.loadJSONToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.loadJSONToolStripMenuItem.Text = "Load JSON";
+            this.loadJSONToolStripMenuItem.Click += new System.EventHandler(this.loadJSONToolStripMenuItem_Click);
             // 
             // showMenuToolStripMenuItem
             // 
@@ -346,53 +354,32 @@
             this.panelMetadata.Size = new System.Drawing.Size(275, 763);
             this.panelMetadata.TabIndex = 18;
             // 
-            // textBoxTitle
+            // label7
             // 
-            this.textBoxTitle.Location = new System.Drawing.Point(13, 31);
-            this.textBoxTitle.Name = "textBoxTitle";
-            this.textBoxTitle.Size = new System.Drawing.Size(255, 20);
-            this.textBoxTitle.TabIndex = 0;
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(10, 250);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(53, 13);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "Summary:";
             // 
-            // label1
+            // textBoxSummary
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 15);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(30, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Title:";
+            this.textBoxSummary.Location = new System.Drawing.Point(13, 266);
+            this.textBoxSummary.Multiline = true;
+            this.textBoxSummary.Name = "textBoxSummary";
+            this.textBoxSummary.Size = new System.Drawing.Size(255, 272);
+            this.textBoxSummary.TabIndex = 13;
             // 
-            // label2
+            // buttonHideMetadata
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(10, 54);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(33, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Date:";
-            // 
-            // textBoxDate
-            // 
-            this.textBoxDate.Location = new System.Drawing.Point(13, 70);
-            this.textBoxDate.Name = "textBoxDate";
-            this.textBoxDate.Size = new System.Drawing.Size(255, 20);
-            this.textBoxDate.TabIndex = 2;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 93);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(41, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Author:";
-            // 
-            // textBoxAuthor
-            // 
-            this.textBoxAuthor.Location = new System.Drawing.Point(13, 109);
-            this.textBoxAuthor.Name = "textBoxAuthor";
-            this.textBoxAuthor.Size = new System.Drawing.Size(255, 20);
-            this.textBoxAuthor.TabIndex = 4;
+            this.buttonHideMetadata.Location = new System.Drawing.Point(13, 544);
+            this.buttonHideMetadata.Name = "buttonHideMetadata";
+            this.buttonHideMetadata.Size = new System.Drawing.Size(75, 23);
+            this.buttonHideMetadata.TabIndex = 12;
+            this.buttonHideMetadata.Text = "Hide Panel";
+            this.buttonHideMetadata.UseVisualStyleBackColor = true;
+            this.buttonHideMetadata.Click += new System.EventHandler(this.buttonHideMetadata_Click);
             // 
             // label4
             // 
@@ -442,39 +429,53 @@
             this.textBoxArtist.Size = new System.Drawing.Size(255, 20);
             this.textBoxArtist.TabIndex = 6;
             // 
-            // buttonHideMetadata
+            // label3
             // 
-            this.buttonHideMetadata.Location = new System.Drawing.Point(13, 544);
-            this.buttonHideMetadata.Name = "buttonHideMetadata";
-            this.buttonHideMetadata.Size = new System.Drawing.Size(75, 23);
-            this.buttonHideMetadata.TabIndex = 12;
-            this.buttonHideMetadata.Text = "Hide Panel";
-            this.buttonHideMetadata.UseVisualStyleBackColor = true;
-            this.buttonHideMetadata.Click += new System.EventHandler(this.buttonHideMetadata_Click);
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(10, 93);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(41, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Author:";
             // 
-            // textBoxSummary
+            // textBoxAuthor
             // 
-            this.textBoxSummary.Location = new System.Drawing.Point(13, 266);
-            this.textBoxSummary.Multiline = true;
-            this.textBoxSummary.Name = "textBoxSummary";
-            this.textBoxSummary.Size = new System.Drawing.Size(255, 272);
-            this.textBoxSummary.TabIndex = 13;
+            this.textBoxAuthor.Location = new System.Drawing.Point(13, 109);
+            this.textBoxAuthor.Name = "textBoxAuthor";
+            this.textBoxAuthor.Size = new System.Drawing.Size(255, 20);
+            this.textBoxAuthor.TabIndex = 4;
             // 
-            // label7
+            // label2
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(10, 250);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(53, 13);
-            this.label7.TabIndex = 14;
-            this.label7.Text = "Summary:";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(10, 54);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(33, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Date:";
             // 
-            // loadJSONToolStripMenuItem
+            // textBoxDate
             // 
-            this.loadJSONToolStripMenuItem.Name = "loadJSONToolStripMenuItem";
-            this.loadJSONToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
-            this.loadJSONToolStripMenuItem.Text = "Load JSON";
-            this.loadJSONToolStripMenuItem.Click += new System.EventHandler(this.loadJSONToolStripMenuItem_Click);
+            this.textBoxDate.Location = new System.Drawing.Point(13, 70);
+            this.textBoxDate.Name = "textBoxDate";
+            this.textBoxDate.Size = new System.Drawing.Size(255, 20);
+            this.textBoxDate.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(10, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(30, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Title:";
+            // 
+            // textBoxTitle
+            // 
+            this.textBoxTitle.Location = new System.Drawing.Point(13, 31);
+            this.textBoxTitle.Name = "textBoxTitle";
+            this.textBoxTitle.Size = new System.Drawing.Size(255, 20);
+            this.textBoxTitle.TabIndex = 0;
             // 
             // openFileDialog1
             // 

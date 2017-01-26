@@ -8,4 +8,5 @@ c:\users\kdeangelis\documents\visual studio 2015\Projects\ComicEditor\ComicEdito
 c:\users\kdeangelis\documents\visual studio 2015\Projects\ComicEditor\ComicEditor\obj\Debug\ComicEditor.Form1.resources
 c:\users\kdeangelis\documents\visual studio 2015\Projects\ComicEditor\ComicEditor\bin\Debug\Newtonsoft.Json.dll
 c:\users\kdeangelis\documents\visual studio 2015\Projects\ComicEditor\ComicEditor\bin\Debug\Newtonsoft.Json.xml
-C:\Users\kdeangelis\Documents\Visual Studio 2015\Projects\ComicEditor\ComicEditor\obj\Debug\ComicEditor.csprojResolveAssemblyReference.cache
+C:\Users\kdeangelis\Documents\Visual Studio 2015\Projects\ComicEditor\ComicEditor\bin\Debug\Magick.NET-Q16-AnyCPU.dll
+C:\Users\kdeangelis\Documents\Visual Studio 2015\Projects\ComicEditor\ComicEditor\bin\Debug\Magick.NET-Q16-AnyCPU.xml

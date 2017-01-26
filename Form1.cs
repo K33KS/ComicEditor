@@ -325,6 +325,12 @@ namespace ComicEditor
                     }
                 }
             }
+            comic.artist = textBoxArtist.Text;
+            comic.date = textBoxDate.Text;
+            comic.author = textBoxAuthor.Text;
+            comic.publisher = textBoxPublisher.Text;
+            comic.genre = textBoxGenre.Text;
+            comic.summary = textBoxSummary.Text;
             string jsonPath = Path.Combine(comicPath, "comic.json");
             FileInfo fi = new FileInfo(comicPath);
             if (fi.Exists)
@@ -384,6 +390,40 @@ namespace ComicEditor
             {
                 panelMetadata.Visible = false;
             }
+        }
+
+        private void loadJSONToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            loadJSON();
+        }
+
+        public void loadJSON()
+        {
+            openFileDialog1.ShowDialog();
+            string path = openFileDialog1.FileName;
+            comic = JsonConvert.DeserializeObject<Comic>(File.ReadAllText(path));
+            foreach(Page pg in comic.pages)
+            {
+                foreach (Panel pn in pg.panels)
+                {
+                    if (pn.panel_number != 1)
+                    {
+                        pn.x1 = pn.x1 / 3;
+                        pn.y1 = pn.y1 / 3;
+                        pn.x2 = pn.x2 / 3;
+                        pn.y2 = pn.y2 / 3;
+                    }
+                }
+            }
+            textBoxTitle.Text = comic.title;
+            textBoxDate.Text = comic.date;
+            textBoxAuthor.Text = comic.author;
+            textBoxArtist.Text = comic.artist;
+            textBoxPublisher.Text = comic.publisher;
+            textBoxGenre.Text = comic.genre;
+            textBoxSummary.Text = comic.summary;
+            pictureBox1.Refresh();
+            DrawRectangles(currentPage);
         }
     }
     public class Comic

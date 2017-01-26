@@ -68,6 +68,10 @@
             this.label6 = new System.Windows.Forms.Label();
             this.textBoxArtist = new System.Windows.Forms.TextBox();
             this.buttonHideMetadata = new System.Windows.Forms.Button();
+            this.textBoxSummary = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.loadJSONToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTextColor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLineColor)).BeginInit();
@@ -98,7 +102,8 @@
             this.selectComicToolStripMenuItem,
             this.convertPDFToJPGToolStripMenuItem,
             this.editComicMetadataToolStripMenuItem,
-            this.finalizeComicToolStripMenuItem});
+            this.finalizeComicToolStripMenuItem,
+            this.loadJSONToolStripMenuItem});
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.settingsToolStripMenuItem.Text = "Settings";
@@ -320,6 +325,8 @@
             // 
             this.panelMetadata.BackColor = System.Drawing.SystemColors.Control;
             this.panelMetadata.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelMetadata.Controls.Add(this.label7);
+            this.panelMetadata.Controls.Add(this.textBoxSummary);
             this.panelMetadata.Controls.Add(this.buttonHideMetadata);
             this.panelMetadata.Controls.Add(this.label4);
             this.panelMetadata.Controls.Add(this.textBoxGenre);
@@ -343,7 +350,7 @@
             // 
             this.textBoxTitle.Location = new System.Drawing.Point(13, 31);
             this.textBoxTitle.Name = "textBoxTitle";
-            this.textBoxTitle.Size = new System.Drawing.Size(259, 20);
+            this.textBoxTitle.Size = new System.Drawing.Size(255, 20);
             this.textBoxTitle.TabIndex = 0;
             // 
             // label1
@@ -368,7 +375,7 @@
             // 
             this.textBoxDate.Location = new System.Drawing.Point(13, 70);
             this.textBoxDate.Name = "textBoxDate";
-            this.textBoxDate.Size = new System.Drawing.Size(259, 20);
+            this.textBoxDate.Size = new System.Drawing.Size(255, 20);
             this.textBoxDate.TabIndex = 2;
             // 
             // label3
@@ -384,7 +391,7 @@
             // 
             this.textBoxAuthor.Location = new System.Drawing.Point(13, 109);
             this.textBoxAuthor.Name = "textBoxAuthor";
-            this.textBoxAuthor.Size = new System.Drawing.Size(259, 20);
+            this.textBoxAuthor.Size = new System.Drawing.Size(255, 20);
             this.textBoxAuthor.TabIndex = 4;
             // 
             // label4
@@ -400,7 +407,7 @@
             // 
             this.textBoxGenre.Location = new System.Drawing.Point(13, 225);
             this.textBoxGenre.Name = "textBoxGenre";
-            this.textBoxGenre.Size = new System.Drawing.Size(259, 20);
+            this.textBoxGenre.Size = new System.Drawing.Size(255, 20);
             this.textBoxGenre.TabIndex = 10;
             // 
             // label5
@@ -416,7 +423,7 @@
             // 
             this.textBoxPublisher.Location = new System.Drawing.Point(13, 186);
             this.textBoxPublisher.Name = "textBoxPublisher";
-            this.textBoxPublisher.Size = new System.Drawing.Size(259, 20);
+            this.textBoxPublisher.Size = new System.Drawing.Size(255, 20);
             this.textBoxPublisher.TabIndex = 8;
             // 
             // label6
@@ -432,18 +439,46 @@
             // 
             this.textBoxArtist.Location = new System.Drawing.Point(13, 147);
             this.textBoxArtist.Name = "textBoxArtist";
-            this.textBoxArtist.Size = new System.Drawing.Size(259, 20);
+            this.textBoxArtist.Size = new System.Drawing.Size(255, 20);
             this.textBoxArtist.TabIndex = 6;
             // 
             // buttonHideMetadata
             // 
-            this.buttonHideMetadata.Location = new System.Drawing.Point(13, 414);
+            this.buttonHideMetadata.Location = new System.Drawing.Point(13, 544);
             this.buttonHideMetadata.Name = "buttonHideMetadata";
             this.buttonHideMetadata.Size = new System.Drawing.Size(75, 23);
             this.buttonHideMetadata.TabIndex = 12;
             this.buttonHideMetadata.Text = "Hide Panel";
             this.buttonHideMetadata.UseVisualStyleBackColor = true;
             this.buttonHideMetadata.Click += new System.EventHandler(this.buttonHideMetadata_Click);
+            // 
+            // textBoxSummary
+            // 
+            this.textBoxSummary.Location = new System.Drawing.Point(13, 266);
+            this.textBoxSummary.Multiline = true;
+            this.textBoxSummary.Name = "textBoxSummary";
+            this.textBoxSummary.Size = new System.Drawing.Size(255, 272);
+            this.textBoxSummary.TabIndex = 13;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(10, 250);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(53, 13);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "Summary:";
+            // 
+            // loadJSONToolStripMenuItem
+            // 
+            this.loadJSONToolStripMenuItem.Name = "loadJSONToolStripMenuItem";
+            this.loadJSONToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.loadJSONToolStripMenuItem.Text = "Load JSON";
+            this.loadJSONToolStripMenuItem.Click += new System.EventHandler(this.loadJSONToolStripMenuItem_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // Form1
             // 
@@ -518,6 +553,10 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxDate;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox textBoxSummary;
+        private System.Windows.Forms.ToolStripMenuItem loadJSONToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
 

@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using ImageMagick;
 
 namespace ComicEditor
 {
@@ -48,24 +49,29 @@ namespace ComicEditor
 
         public void LoadComic(string path)
         {
+            bool jsonPresent = false;
             List<string> lstPaths = Directory.GetFiles(path).ToList();
             List<string> lstPages = new List<string>();
             foreach (string f in lstPaths)
             {
-                if (f.Contains(".jpeg"))
+                if (f.Contains(".jpg") || f.Contains(".jpeg"))
                 {
                     lstPages.Add(f);
+                }
+                else if (f.Contains(".json"))
+                {
+                    jsonPresent = true;
                 }
             }
             files = lstPages.ToArray();
             int index = 0;
             lblPageNumber.Text = "Page: " + (currentPage + 1);
             Dictionary<string, string> coordinates = new Dictionary<string, string>();
-            if (files.First().EndsWith(".comic"))
+            if ((!lstPages[0].EndsWith("jpeg")) && (!lstPages[0].EndsWith("jpg")))
             {
                 index++;
             }
-            Image image = Image.FromFile(files[index]);
+            Image image = Image.FromFile(lstPages[index]);
             panel5.Width = image.Width / 3;
             panel5.Height = image.Height / 3;
             pictureBox1.Image = image;
@@ -74,32 +80,39 @@ namespace ComicEditor
             pictureBoxTextColor.BackColor = Color.LawnGreen;
             pictureBoxLineColor.BackColor = lineColor;
             pictureBoxToolColor.BackColor = Color.Yellow;
-            
             currentPage = 0;
-            int pageCounter = 1;
-            foreach (string file in files)
+            if (jsonPresent == false)
             {
-                if (!file.EndsWith(".comic") || !file.EndsWith(".db"))
+                int pageCounter = 1;
+                foreach (string jpg in lstPages)
                 {
-                    Panel panel = new Panel();
-                    Page page = new Page();
-                    FileInfo fi = new FileInfo(file);
-                    panel.page_number = pageCounter;
-                    panel.panel_number = 1;
-                    panel.x1 = 0;
-                    panel.y1 = 0;
-                    panel.x2 = image.Width;
-                    panel.y2 = image.Height;
-                    page.panels.Add(panel);
-                    int indexofUnderscore = fi.Name.IndexOf("_") + 1;
-                    string fileName = fi.Name.Substring(indexofUnderscore);
-                    page.file_name = fileName.Remove(fileName.IndexOf("."), fileName.Length - fileName.IndexOf("."));
-                    page.file_name = "comic" + page.file_name;
-                    page.page_number = pageCounter;
-                    pageCounter++;
-                    comic.pages.Add(page);
+                    if (!jpg.EndsWith(".json") || !jpg.EndsWith(".db") || !jpg.EndsWith(".pdf"))
+                    {
+                        Panel panel = new Panel();
+                        Page page = new Page();
+                        FileInfo fi = new FileInfo(jpg);
+                        panel.page_number = pageCounter;
+                        panel.panel_number = 1;
+                        panel.x1 = 0;
+                        panel.y1 = 0;
+                        panel.x2 = image.Width;
+                        panel.y2 = image.Height;
+                        maxWidth = image.Width;
+                        maxHeight = image.Height;
+                        page.panels.Add(panel);
+                        int indexofUnderscore = fi.Name.IndexOf("_") + 1;
+                        string fileName = fi.Name.Substring(indexofUnderscore);
+                        page.file_name = fileName.Remove(fileName.IndexOf("."), fileName.Length - fileName.IndexOf("."));
+                        page.file_name = "comic" + page.file_name;
+                        page.page_number = pageCounter;
+                        pageCounter++;
+                        comic.pages.Add(page);
+                    }
                 }
-
+            }
+            else
+            {
+                loadJSON(Path.Combine(path, "comic.json"));
             }
         }
 
@@ -126,6 +139,7 @@ namespace ComicEditor
             comic.pages[currentPage] = comic.pages[currentPage];
             pictureBox1.Refresh();
             DrawRectangles(currentPage);
+            WriteJson();
         }
         private void btnSelect_Click(object sender, EventArgs e)
         {
@@ -307,21 +321,44 @@ namespace ComicEditor
         {
             folderBrowserDialog1.ShowDialog();
             comicPath = folderBrowserDialog1.SelectedPath;
+            
             LoadComic(comicPath);
         }
 
         private void finalizeComicToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            WriteJson();
+        }
+
+        private void WriteJson()
+        {
             foreach (Page page in comic.pages)
             {
-                foreach(Panel panel in page.panels)
+                foreach (Panel panel in page.panels)
                 {
+                    //panel 1 will always be a macro shot of (0,0)x(image.height,image.width), so omit it from the scaling loop
                     if (panel.panel_number != 1)
                     {
                         panel.x1 = panel.x1 * 3;
+                        if (panel.x1 > maxWidth)
+                        {
+                            panel.x1 = maxWidth;
+                        }
                         panel.y1 = panel.y1 * 3;
+                        if (panel.y1 > maxHeight)
+                        {
+                            panel.y1 = maxHeight;
+                        }
                         panel.x2 = panel.x2 * 3;
+                        if (panel.x2 > maxWidth)
+                        {
+                            panel.x2 = maxWidth;
+                        }
                         panel.y2 = panel.y2 * 3;
+                        if (panel.y2 > maxHeight)
+                        {
+                            panel.y2 = maxHeight;
+                        }
                     }
                 }
             }
@@ -337,12 +374,8 @@ namespace ComicEditor
             {
                 fi.Delete();
             }
-            //comicSerializer serializer = new comicSerializer();
-            //serializer.Serialize(file, comic);
             string sanitized = JsonConvert.SerializeObject(comic, Formatting.Indented);
-            File.WriteAllText(comicPath, sanitized);
-
-
+            File.WriteAllText(jsonPath, sanitized);
         }
 
         private void pictureBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -394,14 +427,14 @@ namespace ComicEditor
 
         private void loadJSONToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            loadJSON();
+            openFileDialog1.ShowDialog();
+            string filepath = openFileDialog1.FileName;
+            loadJSON(filepath);
         }
 
-        public void loadJSON()
+        public void loadJSON(string jsonPath)
         {
-            openFileDialog1.ShowDialog();
-            string path = openFileDialog1.FileName;
-            comic = JsonConvert.DeserializeObject<Comic>(File.ReadAllText(path));
+            comic = JsonConvert.DeserializeObject<Comic>(File.ReadAllText(jsonPath));
             foreach(Page pg in comic.pages)
             {
                 foreach (Panel pn in pg.panels)
@@ -424,6 +457,37 @@ namespace ComicEditor
             textBoxSummary.Text = comic.summary;
             pictureBox1.Refresh();
             DrawRectangles(currentPage);
+        }
+
+        private void convertPDFToJPGToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.ShowDialog();
+            string pdfPath = openFileDialog1.FileName;
+            FileInfo fi = new FileInfo(pdfPath);
+            MagickReadSettings settings = new MagickReadSettings();
+            // Settings the density to 300 dpi will create an image with a better quality
+            settings.Density = new Density(300, 300);
+            using (MagickImageCollection images = new MagickImageCollection())
+            {
+                images.Read(fi.FullName, settings);
+                
+                int page = 0;
+                foreach(MagickImage image in images)
+                {
+                    image.Format = MagickFormat.Jpg;
+                    //still need naming conventiontry
+                    try
+                    {
+                        string strPage = page.ToString();
+                        image.Write(Path.Combine(fi.DirectoryName, Path.GetFileNameWithoutExtension(fi.FullName) + "_" + strPage.PadLeft(3, '0') + ".jpg"));
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                    page++;
+                }
+            }
+            MessageBox.Show("Conversion from PDF complete");
         }
     }
     public class Comic

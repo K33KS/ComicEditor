@@ -35,6 +35,7 @@
             this.convertPDFToJPGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editComicMetadataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.finalizeComicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.btnTextColor = new System.Windows.Forms.Button();
             this.btnLineColor = new System.Windows.Forms.Button();
@@ -52,8 +53,21 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.showMenuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.panelMetadata = new System.Windows.Forms.Panel();
+            this.textBoxTitle = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBoxDate = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textBoxAuthor = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBoxGenre = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBoxPublisher = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBoxArtist = new System.Windows.Forms.TextBox();
+            this.buttonHideMetadata = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTextColor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLineColor)).BeginInit();
@@ -64,6 +78,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.panelMetadata.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -73,7 +88,7 @@
             this.showMenuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1010, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1280, 24);
             this.menuStrip1.TabIndex = 15;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -114,6 +129,13 @@
             this.finalizeComicToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.finalizeComicToolStripMenuItem.Text = "Finalize Comic";
             this.finalizeComicToolStripMenuItem.Click += new System.EventHandler(this.finalizeComicToolStripMenuItem_Click);
+            // 
+            // showMenuToolStripMenuItem
+            // 
+            this.showMenuToolStripMenuItem.Name = "showMenuToolStripMenuItem";
+            this.showMenuToolStripMenuItem.Size = new System.Drawing.Size(101, 20);
+            this.showMenuToolStripMenuItem.Text = "Show Tool Strip";
+            this.showMenuToolStripMenuItem.Click += new System.EventHandler(this.showMenuToolStripMenuItem_Click);
             // 
             // btnTextColor
             // 
@@ -259,9 +281,10 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(577, 733);
+            this.pictureBox1.Size = new System.Drawing.Size(886, 763);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -282,13 +305,6 @@
             this.panel4.Size = new System.Drawing.Size(109, 763);
             this.panel4.TabIndex = 16;
             // 
-            // showMenuToolStripMenuItem
-            // 
-            this.showMenuToolStripMenuItem.Name = "showMenuToolStripMenuItem";
-            this.showMenuToolStripMenuItem.Size = new System.Drawing.Size(101, 20);
-            this.showMenuToolStripMenuItem.Text = "Show Tool Strip";
-            this.showMenuToolStripMenuItem.Click += new System.EventHandler(this.showMenuToolStripMenuItem_Click);
-            // 
             // panel5
             // 
             this.panel5.AutoScroll = true;
@@ -300,12 +316,142 @@
             this.panel5.Size = new System.Drawing.Size(886, 763);
             this.panel5.TabIndex = 17;
             // 
+            // panelMetadata
+            // 
+            this.panelMetadata.BackColor = System.Drawing.SystemColors.Control;
+            this.panelMetadata.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelMetadata.Controls.Add(this.buttonHideMetadata);
+            this.panelMetadata.Controls.Add(this.label4);
+            this.panelMetadata.Controls.Add(this.textBoxGenre);
+            this.panelMetadata.Controls.Add(this.label5);
+            this.panelMetadata.Controls.Add(this.textBoxPublisher);
+            this.panelMetadata.Controls.Add(this.label6);
+            this.panelMetadata.Controls.Add(this.textBoxArtist);
+            this.panelMetadata.Controls.Add(this.label3);
+            this.panelMetadata.Controls.Add(this.textBoxAuthor);
+            this.panelMetadata.Controls.Add(this.label2);
+            this.panelMetadata.Controls.Add(this.textBoxDate);
+            this.panelMetadata.Controls.Add(this.label1);
+            this.panelMetadata.Controls.Add(this.textBoxTitle);
+            this.panelMetadata.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panelMetadata.Location = new System.Drawing.Point(1005, 24);
+            this.panelMetadata.Name = "panelMetadata";
+            this.panelMetadata.Size = new System.Drawing.Size(275, 763);
+            this.panelMetadata.TabIndex = 18;
+            // 
+            // textBoxTitle
+            // 
+            this.textBoxTitle.Location = new System.Drawing.Point(13, 31);
+            this.textBoxTitle.Name = "textBoxTitle";
+            this.textBoxTitle.Size = new System.Drawing.Size(259, 20);
+            this.textBoxTitle.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(10, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(30, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Title:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(10, 54);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(33, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Date:";
+            // 
+            // textBoxDate
+            // 
+            this.textBoxDate.Location = new System.Drawing.Point(13, 70);
+            this.textBoxDate.Name = "textBoxDate";
+            this.textBoxDate.Size = new System.Drawing.Size(259, 20);
+            this.textBoxDate.TabIndex = 2;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(10, 93);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(41, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Author:";
+            // 
+            // textBoxAuthor
+            // 
+            this.textBoxAuthor.Location = new System.Drawing.Point(13, 109);
+            this.textBoxAuthor.Name = "textBoxAuthor";
+            this.textBoxAuthor.Size = new System.Drawing.Size(259, 20);
+            this.textBoxAuthor.TabIndex = 4;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(10, 209);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(39, 13);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Genre:";
+            // 
+            // textBoxGenre
+            // 
+            this.textBoxGenre.Location = new System.Drawing.Point(13, 225);
+            this.textBoxGenre.Name = "textBoxGenre";
+            this.textBoxGenre.Size = new System.Drawing.Size(259, 20);
+            this.textBoxGenre.TabIndex = 10;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(10, 170);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(53, 13);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "Publisher:";
+            // 
+            // textBoxPublisher
+            // 
+            this.textBoxPublisher.Location = new System.Drawing.Point(13, 186);
+            this.textBoxPublisher.Name = "textBoxPublisher";
+            this.textBoxPublisher.Size = new System.Drawing.Size(259, 20);
+            this.textBoxPublisher.TabIndex = 8;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(10, 131);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(33, 13);
+            this.label6.TabIndex = 7;
+            this.label6.Text = "Artist:";
+            // 
+            // textBoxArtist
+            // 
+            this.textBoxArtist.Location = new System.Drawing.Point(13, 147);
+            this.textBoxArtist.Name = "textBoxArtist";
+            this.textBoxArtist.Size = new System.Drawing.Size(259, 20);
+            this.textBoxArtist.TabIndex = 6;
+            // 
+            // buttonHideMetadata
+            // 
+            this.buttonHideMetadata.Location = new System.Drawing.Point(13, 414);
+            this.buttonHideMetadata.Name = "buttonHideMetadata";
+            this.buttonHideMetadata.Size = new System.Drawing.Size(75, 23);
+            this.buttonHideMetadata.TabIndex = 12;
+            this.buttonHideMetadata.Text = "Hide Panel";
+            this.buttonHideMetadata.UseVisualStyleBackColor = true;
+            this.buttonHideMetadata.Click += new System.EventHandler(this.buttonHideMetadata_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1010, 787);
+            this.ClientSize = new System.Drawing.Size(1280, 787);
+            this.Controls.Add(this.panelMetadata);
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.menuStrip1);
@@ -324,6 +470,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
+            this.panelMetadata.ResumeLayout(false);
+            this.panelMetadata.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -356,6 +504,20 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.ToolStripMenuItem showMenuToolStripMenuItem;
         private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Panel panelMetadata;
+        private System.Windows.Forms.TextBox textBoxTitle;
+        private System.Windows.Forms.Button buttonHideMetadata;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox textBoxGenre;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBoxPublisher;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox textBoxArtist;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textBoxAuthor;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBoxDate;
+        private System.Windows.Forms.Label label1;
     }
 }
 

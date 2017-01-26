@@ -356,12 +356,6 @@ namespace ComicEditor
             pictureBoxToolColor.Refresh();
         }
 
-        private void editComicMetadataToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            JasonForm jform = new JasonForm();
-            jform.Show();
-        }
-
         private void showMenuToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (panel4.Visible == true)
@@ -375,12 +369,21 @@ namespace ComicEditor
                 panel4.Refresh();
             }
         }
-    }
-    public class JasonForm : JsonEditorForm
-    {
-        public void comicEditorForm()
+
+        private void editComicMetadataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+            if (panelMetadata.Visible == false)
+            {
+                panelMetadata.Visible = true;
+            }
+        }
+
+        private void buttonHideMetadata_Click(object sender, EventArgs e)
+        {
+            if (panelMetadata.Visible == true)
+            {
+                panelMetadata.Visible = false;
+            }
         }
     }
     public class Comic

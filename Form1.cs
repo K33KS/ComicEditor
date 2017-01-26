@@ -17,7 +17,7 @@ namespace ComicEditor
     public partial class Form1 : Form
     {
         public static string comicPath = "";
-        string[] pages;
+        string[] files;
         public int currentPage = 0;
         public string currentPagePath = "";
         public int currentPanel = 1;
@@ -33,12 +33,12 @@ namespace ComicEditor
         public DashStyle cropDashStyle = DashStyle.DashDot;
         public Color lineColor = Color.Red;
         public Brush TextColor = Brushes.LawnGreen;
-        jsondata json = new jsondata();
-        page_info pageInfo = new page_info();
+        Comic comic;
         public Form1()
         {
             InitializeComponent();
             TopMost=true;
+            comic = new Comic();
             //FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Normal;
             folderBrowserDialog1.ShowDialog();
@@ -57,72 +57,73 @@ namespace ComicEditor
                     lstPages.Add(f);
                 }
             }
-            pages = lstPages.ToArray();
+            files = lstPages.ToArray();
             int index = 0;
             lblPageNumber.Text = "Page: " + (currentPage + 1);
             Dictionary<string, string> coordinates = new Dictionary<string, string>();
-            if (pages.First().EndsWith(".json"))
+            if (files.First().EndsWith(".comic"))
             {
                 index++;
             }
-            Image image = Image.FromFile(pages[index]);
+            Image image = Image.FromFile(files[index]);
+            panel5.Width = image.Width / 3;
+            panel5.Height = image.Height / 3;
             pictureBox1.Image = image;
             pictureBox1.Height = image.Height / 3;
             pictureBox1.Width = image.Width / 3;
             pictureBoxTextColor.BackColor = Color.LawnGreen;
             pictureBoxLineColor.BackColor = lineColor;
             pictureBoxToolColor.BackColor = Color.Yellow;
+            
             currentPage = 0;
             int pageCounter = 1;
-            List<page_info> liPageInfo = new List<page_info>();
-            foreach (string page in pages)
+            foreach (string file in files)
             {
-                if (!page.EndsWith(".json") || !page.EndsWith(".db"))
+                if (!file.EndsWith(".comic") || !file.EndsWith(".db"))
                 {
-                    panel_info panInfo = new panel_info();
-                    page_info pageInfo = new page_info();
-                    FileInfo fi = new FileInfo(pages[pageCounter - 1]);
-                    panInfo.page_number = pageCounter;
-                    panInfo.panel_number = 1;
-                    panInfo.x1 = 0;
-                    panInfo.y1 = 0;
-                    panInfo.x2 = image.Width;
-                    panInfo.y2 = image.Height;
-                    pageInfo.file_name = fi.Name;
-                    pageInfo.page_number = pageCounter;
-                    List<panel_info> liPanInfo = new List<panel_info>();
-                    liPanInfo.Add(panInfo);
-                    pageInfo.panels = liPanInfo;
-                    liPageInfo.Add(pageInfo);
-                    pageCounter = pageInfo.page_number;
+                    Panel panel = new Panel();
+                    Page page = new Page();
+                    FileInfo fi = new FileInfo(file);
+                    panel.page_number = pageCounter;
+                    panel.panel_number = 1;
+                    panel.x1 = 0;
+                    panel.y1 = 0;
+                    panel.x2 = image.Width;
+                    panel.y2 = image.Height;
+                    page.panels.Add(panel);
+                    int indexofUnderscore = fi.Name.IndexOf("_") + 1;
+                    string fileName = fi.Name.Substring(indexofUnderscore);
+                    page.file_name = fileName.Remove(fileName.IndexOf("."), fileName.Length - fileName.IndexOf("."));
+                    page.file_name = "comic" + page.file_name;
+                    page.page_number = pageCounter;
                     pageCounter++;
+                    comic.pages.Add(page);
                 }
 
             }
-            json.pages = liPageInfo;
         }
 
         private void SelectPanel()
         {
-            if (pageInfo.panels == null)
+            if (comic.pages[currentPage] == null)
             {
                 currentPanel = 1;
             }
             else
             {
-                currentPanel = pageInfo.panels.Count;
+                currentPanel = comic.pages[currentPage].panels.Count;
             }
             currentPanel++;
-            pageInfo = json.pages[currentPage];
-            panel_info pInfo = new panel_info();
+            comic.pages[currentPage] = comic.pages[currentPage];
+            Panel pInfo = new Panel();
             pInfo.page_number = currentPage + 1;
             pInfo.panel_number = currentPanel;
             pInfo.x1 = cropX;
             pInfo.y1 = cropY;
             pInfo.x2 = cropX2;
             pInfo.y2 = cropY2;
-            pageInfo.panels.Add(pInfo);
-            json.pages[currentPage] = pageInfo;
+            comic.pages[currentPage].panels.Add(pInfo);
+            comic.pages[currentPage] = comic.pages[currentPage];
             pictureBox1.Refresh();
             DrawRectangles(currentPage);
         }
@@ -170,62 +171,43 @@ namespace ComicEditor
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            if ((currentPage + 1) < pages.Length)
+            changePage(1);
+        }
+
+        private void changePage(int direction)
+        {
+            //commit panel edits for the page to the comic object
+            //comic.pages[currentPage] = page;
+            currentPage = currentPage + direction;
+            if (currentPage > comic.pages.Count)
             {
-                //commit panel edits for the page to the json object
-                json.pages[currentPage] = pageInfo;
-                currentPage++;
-                Image image = Image.FromFile(pages[currentPage]);
-                pictureBox1.Image = image;
-                currentPagePath = pages[currentPage];
-                lblPageNumber.Text = "Page: " + (currentPage + 1);
-                pageInfo = json.pages[currentPage];
-                if (pageInfo.panels == null)
-                {
-                    currentPanel = 1;
-                }
-                else
-                {
-                    currentPanel = pageInfo.panels.Count;
-                }
+                currentPage--;
             }
+            else if (currentPage < 0)
+            {
+                currentPage++;
+            }
+            pictureBox1.Image = Image.FromFile(files[currentPage]);
+            currentPagePath = files[currentPage];
+            lblPageNumber.Text = "Page: " + (currentPage + 1);
+            currentPanel = comic.pages[currentPage].panels.Count;
             pictureBox1.Refresh();
             DrawRectangles(currentPage);
         }
 
         private void btnPrevious_Click(object sender, EventArgs e)
         {
-            if ((currentPage +1) != 1)
-            {
-                //commits the changes to the json object before changing pages and reloading the pageinfo
-                json.pages[currentPage] = pageInfo;
-                currentPage--;
-                Image image = Image.FromFile(pages[currentPage]);
-                pictureBox1.Image = image;
-                currentPagePath = pages[currentPage];
-                lblPageNumber.Text = "Page: " + (currentPage + 1);
-                pageInfo = json.pages[currentPage];
-                if (pageInfo.panels == null)
-                {
-                    currentPanel = 1;
-                }
-                else
-                {
-                    currentPanel = pageInfo.panels.Count + 1;
-                }
-            }
-            pictureBox1.Refresh();
-            DrawRectangles(currentPage + 1);
+            changePage(-1);
         }
         public void DrawRectangles(int pageIndex)
         {
             Font myFont = new Font("Arial", 22);
             List<RectangleF> rects = new List<RectangleF>();
             RectangleF rect = new Rectangle();
-            page_info page = json.pages[pageIndex];
-            List<panel_info> panels = page.panels;
+            Page page = comic.pages[pageIndex];
+            List<Panel> panels = page.panels;
             List<string> labelPositions = new List<string>();
-            foreach (panel_info panel in panels)
+            foreach (Panel panel in panels)
             {
                 if (panel.panel_number != 1)
                 {
@@ -256,9 +238,9 @@ namespace ComicEditor
 
         private void RefreshPage(int pageNum)
         {
-            page_info page = json.pages[pageNum];
-            List<panel_info> panels = page.panels;
-            foreach (panel_info panel in panels.ToList())
+            Page page = comic.pages[pageNum];
+            List<Panel> panels = page.panels;
+            foreach (Panel panel in panels.ToList())
             {
                 if (panel.panel_number != 1)
                 {
@@ -272,10 +254,10 @@ namespace ComicEditor
 
         private void UndoLastPanel(int pageNum)
         {
-            page_info page = json.pages[pageNum];
-            List<panel_info> panels = page.panels;
+            Page page = comic.pages[pageNum];
+            List<Panel> panels = page.panels;
             int panelCount = panels.Count;
-            foreach (panel_info panel in panels.ToList())
+            foreach (Panel panel in panels.ToList())
             {
                 if (panel.panel_number != 1 && panel.panel_number == panelCount)
                 {
@@ -330,9 +312,9 @@ namespace ComicEditor
 
         private void finalizeComicToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (page_info page in json.pages)
+            foreach (Page page in comic.pages)
             {
-                foreach(panel_info panel in page.panels)
+                foreach(Panel panel in page.panels)
                 {
                     if (panel.panel_number != 1)
                     {
@@ -343,16 +325,22 @@ namespace ComicEditor
                     }
                 }
             }
+            comic.artist = textBoxArtist.Text;
+            comic.date = textBoxDate.Text;
+            comic.author = textBoxAuthor.Text;
+            comic.publisher = textBoxPublisher.Text;
+            comic.genre = textBoxGenre.Text;
+            comic.summary = textBoxSummary.Text;
             string jsonPath = Path.Combine(comicPath, "comic.json");
-            FileInfo fi = new FileInfo(jsonPath);
+            FileInfo fi = new FileInfo(comicPath);
             if (fi.Exists)
             {
                 fi.Delete();
             }
-            //JsonSerializer serializer = new JsonSerializer();
-            //serializer.Serialize(file, json);
-            string sanitized = JsonConvert.SerializeObject(json, Formatting.Indented);
-            File.WriteAllText(jsonPath, sanitized);
+            //comicSerializer serializer = new comicSerializer();
+            //serializer.Serialize(file, comic);
+            string sanitized = JsonConvert.SerializeObject(comic, Formatting.Indented);
+            File.WriteAllText(comicPath, sanitized);
 
 
         }
@@ -374,20 +362,71 @@ namespace ComicEditor
             pictureBoxToolColor.Refresh();
         }
 
+        private void showMenuToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (panel4.Visible == true)
+            {
+                panel4.Visible = false;
+                panel4.Refresh();
+            }
+            else if (panel4.Visible == false)
+            {
+                panel4.Visible = true;
+                panel4.Refresh();
+            }
+        }
+
         private void editComicMetadataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            JasonForm jform = new JasonForm();
-            jform.Show();
+            if (panelMetadata.Visible == false)
+            {
+                panelMetadata.Visible = true;
+            }
         }
-    }
-    public class JasonForm : JsonEditorForm
-    {
-        public void JsonEditorForm()
+
+        private void buttonHideMetadata_Click(object sender, EventArgs e)
         {
-            
+            if (panelMetadata.Visible == true)
+            {
+                panelMetadata.Visible = false;
+            }
+        }
+
+        private void loadJSONToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            loadJSON();
+        }
+
+        public void loadJSON()
+        {
+            openFileDialog1.ShowDialog();
+            string path = openFileDialog1.FileName;
+            comic = JsonConvert.DeserializeObject<Comic>(File.ReadAllText(path));
+            foreach(Page pg in comic.pages)
+            {
+                foreach (Panel pn in pg.panels)
+                {
+                    if (pn.panel_number != 1)
+                    {
+                        pn.x1 = pn.x1 / 3;
+                        pn.y1 = pn.y1 / 3;
+                        pn.x2 = pn.x2 / 3;
+                        pn.y2 = pn.y2 / 3;
+                    }
+                }
+            }
+            textBoxTitle.Text = comic.title;
+            textBoxDate.Text = comic.date;
+            textBoxAuthor.Text = comic.author;
+            textBoxArtist.Text = comic.artist;
+            textBoxPublisher.Text = comic.publisher;
+            textBoxGenre.Text = comic.genre;
+            textBoxSummary.Text = comic.summary;
+            pictureBox1.Refresh();
+            DrawRectangles(currentPage);
         }
     }
-    public class jsondata
+    public class Comic
     {
         public string title { get; set; }
         public string date { get; set; }
@@ -396,15 +435,26 @@ namespace ComicEditor
         public string artist { get; set; }
         public string publisher { get; set; }
         public string genre { get; set; }
-        public List<page_info> pages { get; set; }
+        public string cover = "comic000";
+        public List<Page> pages { get; set; }
+
+        public Comic()
+        {
+            pages = new List<Page>();
+        }
     }
-    public class page_info
+    public class Page
     {
         public int page_number { get; set; }
         public string file_name { get; set; }
-        public List<panel_info> panels { get; set; }
+        public List<Panel> panels { get; set; }
+
+        public Page()
+        {
+            panels = new List<Panel>();
+        }
     }
-    public class panel_info
+    public class Panel
     {
         public int page_number { get; set; }
         public int panel_number { get; set; }

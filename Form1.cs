@@ -42,9 +42,9 @@ namespace ComicEditor
             comic = new Comic();
             //FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Normal;
-            folderBrowserDialog1.ShowDialog();
-            comicPath = folderBrowserDialog1.SelectedPath;
-            LoadComic(folderBrowserDialog1.SelectedPath);
+            //folderBrowserDialog1.ShowDialog();
+            //comicPath = folderBrowserDialog1.SelectedPath;
+            //LoadComic(folderBrowserDialog1.SelectedPath);
         }
 
         public void LoadComic(string path)
